@@ -22,7 +22,7 @@ steps:
   displayName: 'Run tests'
 
 # Step 4: Publish app
-- script: dotnet publish C:/Users/KAVIN S/source/devoplearning/devopsdemo/devopdemo/devopdemo.csproj --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+- script: dotnet publish ./devopdemo/devopdemo.csproj --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
   displayName: 'Publish project'
 
 # Step 5: Publish artifacts for deployment
