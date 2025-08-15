@@ -3,7 +3,7 @@ trigger:
 - main
 
 pool:
-  name: Default   # or your actual pool name for self-hosted agent
+  name: Default
 
 variables:
   buildConfiguration: 'Release'
@@ -25,9 +25,20 @@ steps:
 - script: dotnet publish --configuration $(buildConfiguration) --output "$(Build.ArtifactStagingDirectory)"
   displayName: 'Publish project'
 
-# Step 5: Publish artifacts for deployment
+# Step 5: Zip the published files
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+  displayName: 'Zip published files'
+
+# Step 6: Publish the zip artifact
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'Publish artifact as zip'
