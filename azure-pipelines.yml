@@ -1,24 +1,15 @@
-# ASP.NET Core CI/CD Pipeline
-# Build, test, and publish ASP.NET Core projects targeting .NET Core.
-# Docs: https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
+# ASP.NET Core CI/CD Pipeline for self-hosted agent
 trigger:
 - main
 
 pool:
-  name: Default   # or Default if you used the default pool
+  name: Default   # or your actual pool name for self-hosted agent
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
 # Step 1: Restore NuGet packages
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '9.0.304'  # Change to your .NET version
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-
 - script: dotnet restore
   displayName: 'Restore packages'
 
